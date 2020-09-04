@@ -24,11 +24,11 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Ripple Fitness`,
-        short_name: `Ripple`,
+        name: `gatsby-starter-default`,
+        short_name: `starter`,
         start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `##4173af`,
+        background_color: `#663399`,
+        theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/favicon-32x32.png`, // This path is relative to the root of the site.
       },
