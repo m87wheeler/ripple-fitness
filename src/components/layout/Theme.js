@@ -7,7 +7,8 @@ const theme = {
     secondary: "#6b6b6b",
     disabled: "#cfcfcf",
     white: "#fff",
-    black: "#000",
+    black: "#222",
+    textOnColor: "rgba(20, 20, 20, 0.85)",
   },
   fonts: {
     serif: "'Roboto Slab', sans-serif",

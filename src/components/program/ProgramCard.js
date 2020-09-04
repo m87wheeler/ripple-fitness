@@ -128,6 +128,16 @@ const ProgramCard = props => {
     setSeeMore(false)
   }
 
+  const options = {
+    renderNode: {
+      "embedded-asset-block": node => {
+        const alt = node.data.target.fields.title["en-US"]
+        const url = node.data.target.fields.file["en-US"].url
+        return <img src={url} alt={alt} />
+      },
+    },
+  }
+
   return (
     <Card
       animate="slide-up"
@@ -145,7 +155,7 @@ const ProgramCard = props => {
         </MoreButton>
         <SeeMore visible={seeMore}>
           <CloseContainer onClick={exitMore} onKeyDown={exitMore} />
-          {documentToReactComponents(props.richText)}
+          {documentToReactComponents(props.richText, options)}
           <Button to="/join" primary style={{ marginTop: "2rem" }}>
             JOIN
           </Button>

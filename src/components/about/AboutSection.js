@@ -45,17 +45,35 @@ const Text = styled.div`
   width: 60%;
   margin: 3rem auto;
 
+  p {
+    color: ${props => props.theme.colors.textOnColor};
+  }
+
+  img {
+    width: 60%;
+  }
+
   @media (max-width: 800px) {
     width: 90%;
   }
 `
 
 const AboutSection = props => {
+  const options = {
+    renderNode: {
+      "embedded-asset-block": node => {
+        const alt = node.data.target.fields.title["en-US"]
+        const url = node.data.target.fields.file["en-US"].url
+        return <img src={url} alt={alt} />
+      },
+    },
+  }
+
   return (
     <AboutText className={props.className}>
       <Header secondary uppercase title="About" />
       <img src={wordLogo} alt="Ripple Word Logo" />
-      <Text>{documentToReactComponents(props.text)}</Text>
+      <Text>{documentToReactComponents(props.text, options)}</Text>
       {props.children}
     </AboutText>
   )
