@@ -110,6 +110,17 @@ const NavWrapper = styled.nav`
   }
 `
 
+const NavButton = styled(Button)`
+  @media (max-width: 980px) {
+    button {
+      font-size: 1.5rem;
+      font-weight: 400;
+      border: ${props => `3px solid ${props.theme.colors.white}`};
+      color: ${props => props.theme.colors.white};
+    }
+  }
+`
+
 const NavHamburger = styled(Hamburger)`
   display: none;
   top: -100vh;
@@ -202,16 +213,15 @@ const Nav = ({ className, landingPage }) => {
           </Link>
         </li> */}
         <li>
-          <Button
+          <NavButton
             to="/join"
-            primary={window.innerWidth > 980}
+            primary
             outline
-            style={{ fontSize: "1.5rem" }}
             onClick={handleClick}
             onKeyDown={handleClick}
           >
             Free Trial
-          </Button>
+          </NavButton>
         </li>
       </ul>
       <StaticQuery

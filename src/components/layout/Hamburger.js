@@ -6,6 +6,7 @@ const HamburgerWrapper = styled.div`
   position: absolute;
   width: 2.5rem;
   height: 2rem;
+  cursor: pointer;
 
   span {
     position: absolute;

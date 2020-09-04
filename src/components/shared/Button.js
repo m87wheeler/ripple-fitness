@@ -94,6 +94,7 @@ const Button = props => {
     return (
       <InternalButton to={props.to} className={props.className}>
         <ButtonWrapper
+          className={props.className}
           primary={props.primary}
           secondary={props.secondary}
           outline={props.outline}
@@ -108,6 +109,7 @@ const Button = props => {
     return (
       <ActionButton className={props.className}>
         <ButtonWrapper
+          className={props.className}
           onClick={props.action}
           onKeyDown={props.action}
           primary={props.primary}
@@ -129,6 +131,7 @@ const Button = props => {
         className={props.className}
       >
         <ButtonWrapper
+          className={props.className}
           primary={props.primary}
           secondary={props.secondary}
           outline={props.outline}
