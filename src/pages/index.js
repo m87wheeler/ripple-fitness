@@ -102,7 +102,7 @@ const IndexPage = ({ data }) => {
             <StepCard
               primary
               key={node.node.contentful_id}
-              delay={i * 300}
+              delay={i * 50}
               src={node.node.icon.file.url}
               header={node.node.title}
               text={node.node.shortDescription}

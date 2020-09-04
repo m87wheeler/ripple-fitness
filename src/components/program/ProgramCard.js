@@ -132,7 +132,7 @@ const ProgramCard = props => {
     <Card
       animate="slide-up"
       duration={500}
-      delay={props.delay}
+      delay={props.delay || 0}
       easing="ease"
       className={props.className}
     >
