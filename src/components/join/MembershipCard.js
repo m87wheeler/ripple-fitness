@@ -20,6 +20,11 @@ const CardWrapper = styled.div`
     props.focus ? "none" : `3px solid ${props.theme.colors.primary}`};
   padding: 1rem;
   text-align: center;
+  box-shadow: ${props => props.theme.material.shadow};
+
+  @media (max-width: 1600px) {
+    margin-bottom: 5rem;
+  }
 
   h1 {
     font-size: 4rem;
@@ -138,11 +143,11 @@ const MembershipCard = props => {
         <p className="membership-card--expiry">Expires {stringDate}</p>
         <p className="membership-card--info">{props.info}</p>
         {props.focus ? (
-          <CardButton link={props.link} outline>
+          <CardButton href={props.link} outline>
             {props.buttonText}
           </CardButton>
         ) : (
-          <CardButton link={props.link} external primary>
+          <CardButton href={props.link} primary>
             {props.buttonText}
           </CardButton>
         )}

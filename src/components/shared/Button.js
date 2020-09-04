@@ -3,67 +3,37 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
-const ButtonWrapper = styled.button`
-  background: ${props =>
-    props.outline
-      ? "transparent"
-      : props.primary
-      ? props.theme.colors.primary
-      : props.secondary
-      ? props.theme.colors.secondary
-      : null};
-
-  color: ${props =>
-    props.outline
-      ? props.primary
-        ? props.theme.colors.primary
-        : props.secondary
-        ? props.theme.colors.secondary
-        : props.theme.colors.white
-      : props.theme.colors.white};
-
-  border: ${props =>
-    props.primary
-      ? `3px solid ${props.theme.colors.primary}`
-      : props.secondary
-      ? `3px solid ${props.theme.colors.secondary}`
-      : `3px solid ${props.theme.colors.white}`};
-  /* box-shadow: ${props => (props.shadow ? "10px 10px 3px" : "none")}; */
-  opacity: 1;
-  padding: 0.5rem 2rem;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: ${props => props.theme.spacing.small};
-  font-family: ${props => props.theme.fonts.serif};
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    background: ${props =>
-      props.outline
-        ? props.primary
-          ? props.theme.colors.primary
-          : props.secondary
-          ? props.theme.colors.secondary
-          : null
-        : null};
-    color: ${props => (props.outline ? props.theme.colors.white : null)};
-    opacity: ${props => (props.outline ? "1" : ".9")};
-  }
+const InternalButton = styled(Link)`
+  display: block;
 `
 
-const AnchorWrapper = styled.a`
-  max-width: 12rem;
+const ActionButton = styled.div``
+
+const ExternalButton = styled.a`
+  text-decoration: none;
+`
+
+const ButtonWrapper = styled.button`
+  font-size: 1rem;
+  font-family: ${props => props.theme.fonts.serif};
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  padding: 0.75rem 2rem;
+  text-transform: uppercase;
+  box-shadow: ${props => (props.shadow ? props.theme.material.shadow : "none")};
+
   background: ${props =>
     props.outline
-      ? "transparent"
+      ? props.primary
+        ? "transparent"
+        : props.secondary
+        ? "transparent"
+        : "transparent"
       : props.primary
       ? props.theme.colors.primary
       : props.secondary
       ? props.theme.colors.secondary
-      : null};
-
+      : "transparent"};
   color: ${props =>
     props.outline
       ? props.primary
@@ -71,44 +41,93 @@ const AnchorWrapper = styled.a`
         : props.secondary
         ? props.theme.colors.secondary
         : props.theme.colors.white
-      : props.theme.colors.white};
-
+      : props.primary
+      ? props.theme.colors.white
+      : props.secondary
+      ? props.theme.colors.white
+      : props.theme.colors.black};
   border: ${props =>
-    props.primary
+    props.outline
+      ? props.primary
+        ? `3px solid ${props.theme.colors.primary}`
+        : props.secondary
+        ? `3px solid ${props.theme.colors.secondary}`
+        : `3px solid ${props.theme.colors.white}`
+      : props.primary
       ? `3px solid ${props.theme.colors.primary}`
       : props.secondary
       ? `3px solid ${props.theme.colors.secondary}`
-      : `3px solid ${props.theme.colors.white}`};
-  /* box-shadow: ${props => (props.shadow ? "10px 10px 3px" : "none")}; */
-  opacity: 1;
-  padding: 0.5rem 2rem;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: ${props => props.theme.spacing.small};
-  font-family: ${props => props.theme.fonts.serif};
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
+      : `3px solid ${props.theme.colors.black}`};
+  transition: all 0.3s ease;
 
   &:hover {
-    text-decoration: none;
     background: ${props =>
       props.outline
         ? props.primary
           ? props.theme.colors.primary
           : props.secondary
           ? props.theme.colors.secondary
-          : null
-        : null};
-    color: ${props => (props.outline ? props.theme.colors.white : "inherit")};
-    opacity: ${props => (props.outline ? "1" : ".9")};
+          : props.theme.colors.white
+        : props.primary
+        ? props.theme.colors.white
+        : props.secondary
+        ? props.theme.colors.white
+        : "black"};
+    color: ${props =>
+      props.outline
+        ? props.primary
+          ? props.theme.colors.white
+          : props.secondary
+          ? props.theme.colors.white
+          : props.theme.colors.primary
+        : props.primary
+        ? props.theme.colors.primary
+        : props.secondary
+        ? props.theme.colors.secondary
+        : props.theme.colors.white};
   }
 `
 
 const Button = props => {
   if (props.to) {
+    // a button that links within the site
     return (
-      <Link to={props.to} className={props.className}>
+      <InternalButton to={props.to} className={props.className}>
+        <ButtonWrapper
+          primary={props.primary}
+          secondary={props.secondary}
+          outline={props.outline}
+          style={props.style}
+        >
+          {props.children}
+        </ButtonWrapper>
+      </InternalButton>
+    )
+  } else if (props.action) {
+    // a button that carries out an action
+    return (
+      <ActionButton className={props.className}>
+        <ButtonWrapper
+          onClick={props.action}
+          onKeyDown={props.action}
+          primary={props.primary}
+          secondary={props.secondary}
+          outline={props.outline}
+          style={props.style}
+        >
+          {props.children}
+        </ButtonWrapper>
+      </ActionButton>
+    )
+  } else if (props.href) {
+    // a button that links to an external page
+    return (
+      <ExternalButton
+        href={props.href}
+        target="_blank"
+        rel="noreferrer noopen"
+        className={props.className}
+      >
         <ButtonWrapper
           primary={props.primary}
           secondary={props.secondary}
@@ -118,44 +137,19 @@ const Button = props => {
         >
           {props.children}
         </ButtonWrapper>
-      </Link>
-    )
-  } else if (props.link) {
-    return (
-      <AnchorWrapper
-        className={props.className}
-        primary={props.primary}
-        secondary={props.secondary}
-        outline={props.outline}
-        shadow={props.shadow}
-        href={props.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={props.style}
-      >
-        {props.children}
-      </AnchorWrapper>
-    )
-  } else {
-    return (
-      <ButtonWrapper
-        className={props.className}
-        primary={props.primary}
-        secondary={props.secondary}
-        outline={props.outline}
-        shadow={props.shadow}
-        onClick={props.onClick}
-        style={props.style}
-      >
-        {props.children}
-      </ButtonWrapper>
+      </ExternalButton>
     )
   }
 }
 
 Button.propTypes = {
+  to: PropTypes.string,
+  onClick: PropTypes.func,
+  href: PropTypes.string,
+  primary: PropTypes.bool,
+  secondary: PropTypes.bool,
+  outline: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  external: PropTypes.bool,
 }
 
 export default Button

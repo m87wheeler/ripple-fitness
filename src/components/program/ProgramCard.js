@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 import Card from "../shared/Card"
 import Button from "../shared/Button"
@@ -13,6 +14,7 @@ const CardWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   background: ${props => props.theme.colors.primary};
+  box-shadow: ${props => props.theme.material.shadow};
 
   img {
     display: block;
@@ -22,7 +24,9 @@ const CardWrapper = styled.div`
   }
 
   h4 {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
     width: 40%;
     min-height: 3.5rem;
     margin: 2rem 30% 1rem;
@@ -33,10 +37,14 @@ const CardWrapper = styled.div`
     margin: 0 2rem 2rem;
     text-align: justify;
   }
+
+  @media (max-width: 770px) {
+    padding: 4rem 0 0.75rem;
+  }
 `
 
 const MoreButton = styled(Button)`
-  width: 12rem;
+  width: auto;
   margin: 1rem auto 2rem;
 `
 
@@ -59,6 +67,10 @@ const SeeMore = styled.div`
   transition: transform 0.2s ease;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  @media (max-width: 770px) {
+    padding: 5rem 0;
+  }
 `
 
 const CloseContainer = styled.div`
@@ -128,12 +140,12 @@ const ProgramCard = props => {
         <img src={props.src} alt="Step Icon" />
         <h4>{props.header}</h4>
         <p>{props.text}</p>
-        <MoreButton outline onClick={handleClick}>
+        <MoreButton outline action={handleClick}>
           SEE MORE
         </MoreButton>
         <SeeMore visible={seeMore}>
-          <CloseContainer onClick={exitMore} />
-          {props.children}
+          <CloseContainer onClick={exitMore} onKeyDown={exitMore} />
+          {documentToReactComponents(props.richText)}
           <Button to="/join" primary style={{ marginTop: "2rem" }}>
             JOIN
           </Button>

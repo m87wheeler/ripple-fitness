@@ -7,18 +7,9 @@ import TheTeam from "../components/about/TheTeam"
 import Card from "../components/shared/Card"
 
 const About = ({ data }) => {
-  const aboutIntro = data.allContentfulPageIntroduction.edges.find(
-    node => node.node.title === "About"
-  )
-
   return (
     <Layout>
-      <AboutSection
-        text={
-          aboutIntro.node.childContentfulPageIntroductionTextContentRichTextNode
-            .textContent
-        }
-      />
+      <AboutSection text={data.contentfulPageIntroduction.textContent.json} />
       <Card
         white
         animate="slide-up"
@@ -27,7 +18,7 @@ const About = ({ data }) => {
         easing="ease"
         style={{ width: "100%" }}
       >
-        <TheTeam />
+        <TheTeam coachDataArray={data.allContentfulCoachProfile.edges} />
       </Card>
     </Layout>
   )
@@ -37,12 +28,22 @@ export default About
 
 export const query = graphql`
   query {
-    allContentfulPageIntroduction {
+    contentfulPageIntroduction(title: { eq: "About" }) {
+      textContent {
+        json
+      }
+    }
+    allContentfulCoachProfile {
       edges {
         node {
-          title
-          childContentfulPageIntroductionTextContentRichTextNode {
-            textContent
+          contentful_id
+          coachName
+          coachPosition
+          coachBio
+          coachPhoto {
+            file {
+              url
+            }
           }
         }
       }

@@ -6,21 +6,22 @@ const HamburgerWrapper = styled.div`
   position: absolute;
   width: 2.5rem;
   height: 2rem;
-  background: ${props => (props.navIsOpen ? "seagreen" : "crimson")};
 
   span {
     position: absolute;
     left: 0;
     width: inherit;
     height: 0.25rem;
-    background: ${props => props.theme.colors.primary};
+    background: ${props =>
+      props.navIsOpen ? props.theme.colors.white : props.theme.colors.primary};
+    transform-origin: center;
     transition: all 0.2s ease-in-out;
   }
 
   span:first-of-type {
     top: ${props => (props.navIsOpen ? "50%" : "0")};
     transform: ${props =>
-      props.navIsOpen ? "translateY(-50%) rotate(45deg)" : "none"};
+      props.navIsOpen ? "translateY(-50%) rotate(-45deg)" : "none"};
   }
 
   span:nth-of-type(2) {
@@ -32,7 +33,7 @@ const HamburgerWrapper = styled.div`
   span:last-of-type {
     bottom: ${props => (props.navIsOpen ? "50%" : "0")};
     transform: ${props =>
-      props.navIsOpen ? "translateY(-50%) rotate(-45deg)" : "none"};
+      props.navIsOpen ? "translateY(50%) rotate(45deg)" : "none"};
   }
 `
 
@@ -40,8 +41,9 @@ const Hamburger = props => {
   return (
     <HamburgerWrapper
       className={props.className}
-      navIsOpen={props.navIsOpen}
       onClick={props.onClick}
+      onKeyDown={props.onClick}
+      navIsOpen={props.navIsOpen}
     >
       <span />
       <span />

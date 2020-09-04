@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
 import Hamburger from "./Hamburger"
@@ -57,23 +58,23 @@ const NavWrapper = styled.nav`
   @media (max-width: 980px) {
     position: fixed;
     top: 0;
-    left: 0;
-    height: auto;
+    right: ${props => (props.navIsOpen ? "0" : "-150vw")};
+    height: 100vh;
+    background: ${props => props.theme.colors.secondary};
+    transition: right 0.3s ease-in-out;
 
     ul {
-      position: fixed;
-      top: ${props => (props.navisopen ? "0" : "-150vh")};
+      position: relative;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
-      padding: 30% 0;
+      height: 70%;
+      padding: 20% 0 10%;
       display: flex;
       flex-flow: column nowrap;
-      background: ${props => props.theme.colors.primary};
-      z-index: -1;
+      z-index: 5;
 
       li {
-        background: pink;
         width: 100%;
         height: 20%;
         display: table;
@@ -81,9 +82,9 @@ const NavWrapper = styled.nav`
         a {
           display: table-cell;
           vertical-align: middle;
-          background: seagreen;
           width: inherit;
           height: 100%;
+          font-size: 1.5rem;
           color: ${props => props.theme.colors.white};
           border-bottom: none;
           padding: 0;
@@ -91,6 +92,7 @@ const NavWrapper = styled.nav`
           &:hover {
             background: ${props => props.theme.colors.primary};
             color: ${props => props.theme.colors.white};
+            border: none;
           }
         }
 
@@ -109,55 +111,141 @@ const NavWrapper = styled.nav`
 `
 
 const NavHamburger = styled(Hamburger)`
-  visibility: hidden;
+  display: none;
   top: -100vh;
   right: -100vw;
 
   @media (max-width: 980px) {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    visibility: visible;
+    display: block;
+    position: fixed;
+    top: 2rem;
+    right: 1.5rem;
+    z-index: 999;
   }
 `
 
-const Nav = props => {
+const SocialMedia = styled.div`
+  display: none;
+
+  @media (max-width: 980px) {
+    width: 100%;
+    height: calc(30% - 1rem);
+    padding: 1rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  a {
+    height: 3rem;
+
+    img {
+      height: inherit;
+    }
+  }
+`
+
+const Nav = ({ className, landingPage }) => {
   const [navIsOpen, setNavIsOpen] = useState(false)
 
-  const navStatus = () => {
+  const handleClick = () => {
+    console.log("click")
     setNavIsOpen(!navIsOpen)
   }
 
   return (
-    <NavWrapper landingPage={props.landingPage}>
-      <NavHamburger onClick={navStatus} navIsOpen={navIsOpen} />
-      <ul navisopen={navIsOpen}>
+    <NavWrapper
+      landingPage={landingPage}
+      className={className}
+      navIsOpen={navIsOpen}
+    >
+      <NavHamburger
+        onClick={handleClick}
+        onKeyDown={handleClick}
+        navIsOpen={navIsOpen}
+      />
+      <ul>
         <li>
-          <Link to="/program" activeClassName="active">
+          <Link
+            to="/program"
+            activeClassName="active"
+            onClick={handleClick}
+            onKeyDown={handleClick}
+          >
             The Program
           </Link>
         </li>
         <li>
-          <Link to="/about" activeClassName="active">
+          <Link
+            to="/about"
+            activeClassName="active"
+            onClick={handleClick}
+            onKeyDown={handleClick}
+          >
             About
           </Link>
         </li>
         <li>
-          <Link to="/faq" activeClassName="active">
+          <Link
+            to="/faq"
+            activeClassName="active"
+            onClick={handleClick}
+            onKeyDown={handleClick}
+          >
             FAQ
           </Link>
         </li>
-        <li>
-          <Link to="/contact" activeClassName="active">
+        {/* <li>
+          <Link to="/contact" activeClassName="active" onClick={handleClick} onKeyDown={handleClick}>
             Contact
           </Link>
-        </li>
+        </li> */}
         <li>
-          <Button to="/join" primary outline>
+          <Button
+            to="/join"
+            primary={window.innerWidth > 980}
+            outline
+            style={{ fontSize: "1.5rem" }}
+            onClick={handleClick}
+            onKeyDown={handleClick}
+          >
             Free Trial
           </Button>
         </li>
       </ul>
+      <StaticQuery
+        query={graphql`
+          query {
+            allContentfulSocialMediaLinks {
+              edges {
+                node {
+                  contentful_id
+                  title
+                  url
+                  pngIcon {
+                    file {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `}
+        render={data => (
+          <SocialMedia>
+            {data.allContentfulSocialMediaLinks.edges.map(edge => (
+              <a key={edge.node.contentful_id} href={edge.node.url}>
+                <img
+                  src={edge.node.pngIcon.file.url}
+                  alt={`${edge.node.title} logo`}
+                />
+              </a>
+            ))}
+          </SocialMedia>
+        )}
+      />
     </NavWrapper>
   )
 }

@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+
 import PageHeader from "../shared/PageHeader"
 
 import wordLogo from "../../assets/icons/word-logo.png"
@@ -30,11 +32,12 @@ const AboutText = styled.div`
   }
 
   p {
-    width: 40%;
+    width: 75%;
     margin: 2rem auto;
     font-size: 1.25rem;
     line-height: 1.5em;
     color: ${props => props.theme.colors.secondary};
+    text-align: justify;
   }
 `
 
@@ -49,10 +52,11 @@ const Text = styled.div`
 
 const AboutSection = props => {
   return (
-    <AboutText>
+    <AboutText className={props.className}>
       <Header secondary uppercase title="About" />
       <img src={wordLogo} alt="Ripple Word Logo" />
-      <Text>{props.text}</Text>
+      <Text>{documentToReactComponents(props.text)}</Text>
+      {props.children}
     </AboutText>
   )
 }

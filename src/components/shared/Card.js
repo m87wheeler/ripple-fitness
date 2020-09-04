@@ -41,7 +41,7 @@ Card.propTypes = {
   white: PropTypes.bool,
   animate: PropTypes.oneOf(["slide-up"]),
   duration: PropTypes.number,
-  delay: PropTypes.string,
+  delay: PropTypes.number,
   easing: PropTypes.oneOf(["ease"]),
 }
 

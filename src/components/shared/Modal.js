@@ -141,7 +141,9 @@ const Modal = props => {
         <ModalButton to={props.to} primary>
           {props.promoButton}
         </ModalButton>
-        <ModalExit onClick={handleExit}>NO THANKS</ModalExit>
+        <ModalExit onClick={handleExit} onKeyDown={handleExit}>
+          NO THANKS
+        </ModalExit>
         <p className="disclaimer">{props.promoDisclaimer}</p>
       </ModalInfoBlock>
     </ModalWrapper>

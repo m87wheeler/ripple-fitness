@@ -24,26 +24,19 @@ const TheTeam = props => {
   return (
     <CoachLayout>
       <Header primary uppercase title="The Team" />
-      <CoachPorthole
-        name="Michael Wheeler"
-        position="Founder, Coach"
-        bio="Anim aliquip irure incididunt velit labore aliqua commodo cupidatat deserunt adipisicing qui eiusmod labore. Aliqua reprehenderit nostrud ea ex. Aute veniam deserunt voluptate esse ut tempor eiusmod."
-        src=""
-        animate="slide-up"
-        duration="500"
-        delay="0"
-        easing="ease"
-      />
-      <CoachPorthole
-        name="George Something"
-        position="Founder, Coach"
-        bio="Anim aliquip irure incididunt velit labore aliqua commodo cupidatat deserunt adipisicing qui eiusmod labore. Aliqua reprehenderit nostrud ea ex. Aute veniam deserunt voluptate esse ut tempor eiusmod."
-        src=""
-        animate="slide-up"
-        duration="500"
-        delay="0"
-        easing="ease"
-      />
+      {props.coachDataArray.map(coach => (
+        <CoachPorthole
+          key={coach.node.contentful_id}
+          name={coach.node.coachName}
+          position={coach.node.coachPosition}
+          bio={coach.node.coachBio}
+          src={coach.node.coachPhoto ? coach.node.coachPhoto.file.url : null}
+          animate="slide-up"
+          duration={500}
+          delay={0}
+          easing="ease"
+        />
+      ))}
     </CoachLayout>
   )
 }

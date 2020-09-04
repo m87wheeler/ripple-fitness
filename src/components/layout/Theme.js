@@ -12,6 +12,7 @@ const theme = {
   fonts: {
     serif: "'Roboto Slab', sans-serif",
     sans: "'Roboto', serif",
+    developer: "'Montserrat', sans-serif",
   },
   spacing: {
     small: ".1rem",
@@ -23,6 +24,9 @@ const theme = {
     medium: "1rem",
     large: "2rem",
     header: "9rem",
+  },
+  material: {
+    shadow: "0px 2px 4px rgba(0, 0, 0, 0.3);",
   },
 }
 

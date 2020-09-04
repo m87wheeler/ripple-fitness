@@ -21,9 +21,19 @@ const CardContainer = styled.div`
   flex-flow: row nowrap;
   justify-content: space-evenly;
 
+  @media (max-width: 1600px) {
+    width: 80%;
+    margin: 5rem 10%;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+
   @media (max-width: 1300px) {
+    width: 90%;
+    margin: 5rem 5%;
     display: flex;
     flex-flow: column nowrap;
+    justify-content: space-evenly;
 
     * {
       margin-left: auto;
@@ -32,9 +42,10 @@ const CardContainer = styled.div`
   }
 `
 
-const CardButton = styled(Button)`
+const ButtonContainer = styled.div`
   display: block;
   margin: 2rem auto 5rem;
+  text-align: center;
 `
 
 const Join = ({ data }) => {
@@ -44,6 +55,7 @@ const Join = ({ data }) => {
       <CardContainer>
         {data.allContentfulOfferTrialCards.edges.map(node => (
           <MembershipCard
+            key={node.node.contentful_id}
             title={node.node.title}
             cost={node.node.currentPrice}
             normalCost={node.node.regularPrice}
@@ -51,15 +63,17 @@ const Join = ({ data }) => {
             info={node.node.details}
             expiry={node.node.expiry}
             buttonText="JOIN NOW"
-            link="https://www.trainerize.com"
+            link={node.node.url}
             focus={node.node.inFocus}
           />
         ))}
       </CardContainer>
       <Header primary uppercase title="Want to join us?" />
-      <CardButton link={"https://www.trainerize.com"} external primary>
-        JOIN RIPPLE
-      </CardButton>
+      <ButtonContainer>
+        <Button href={data.contentfulDefaultButtonLinks.url} primary shadow>
+          JOIN RIPPLE
+        </Button>
+      </ButtonContainer>
     </Layout>
   )
 }
@@ -68,7 +82,7 @@ export default Join
 
 export const query = graphql`
   query {
-    allContentfulOfferTrialCards {
+    allContentfulOfferTrialCards(limit: 3) {
       edges {
         node {
           title
@@ -79,8 +93,12 @@ export const query = graphql`
           expiry
           inFocus
           contentful_id
+          url
         }
       }
+    }
+    contentfulDefaultButtonLinks(buttonName: { eq: "Join" }) {
+      url
     }
   }
 `

@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import styled from "styled-components"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 import Layout from "../components/layout/Layout"
 import PageHeader from "../components/shared/PageHeader"
@@ -16,7 +17,7 @@ const Header = styled(PageHeader)`
   text-align: center;
 `
 
-const IntroText = styled.p`
+const IntroText = styled.section`
   grid-area: intro;
   width: 50%;
   margin: 2rem auto 3rem;
@@ -50,29 +51,21 @@ const Program = ({ data }) => {
       <ProgramWrapper>
         <Header primary uppercase title="The Program" />
         <IntroText>
-          Dynamic text goes here
-          {
-            data.allContentfulPageIntroduction.edges[0].node
-              .childContentfulPageIntroductionTextContentRichTextNode
-              .textContent
-          }
+          {documentToReactComponents(
+            data.contentfulPageIntroduction.textContent.json
+          )}
         </IntroText>
         <CardContainer>
           {
             /* cards need to be sorted using order */
             data.allContentfulProgramSection.edges.map((card, i) => (
               <ProgramCard
-                key={card.node.title}
+                key={card.node.contentful_id}
                 header={card.node.title}
                 src={card.node.icon.file.url}
                 text={card.node.shortDescription}
-              >
-                {
-                  card.node
-                    .childContentfulProgramSectionSectionDetailsRichTextNode
-                    .sectionDetails
-                }
-              </ProgramCard>
+                richText={card.node.sectionDetails.json}
+              />
             ))
           }
         </CardContainer>
@@ -88,6 +81,7 @@ export const query = graphql`
     allContentfulProgramSection {
       edges {
         node {
+          contentful_id
           title
           shortDescription
           icon {
@@ -95,19 +89,15 @@ export const query = graphql`
               url
             }
           }
-          childContentfulProgramSectionSectionDetailsRichTextNode {
-            sectionDetails
+          sectionDetails {
+            json
           }
         }
       }
     }
-    allContentfulPageIntroduction {
-      edges {
-        node {
-          childContentfulPageIntroductionTextContentRichTextNode {
-            textContent
-          }
-        }
+    contentfulPageIntroduction(title: { eq: "The Program" }) {
+      textContent {
+        json
       }
     }
   }

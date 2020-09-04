@@ -25,6 +25,14 @@ const LogoContainer = styled.div`
   img {
     height: 7rem;
   }
+
+  @media (max-width: 980px) {
+    img {
+      background: white;
+      padding: 5px;
+      border-radius: 100%;
+    }
+  }
 `
 
 const Header = props => {
