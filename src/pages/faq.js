@@ -16,6 +16,10 @@ const AccordionContainer = styled.div`
   width: 60%;
   height: auto;
   margin: 3rem auto;
+
+  @media (max-width: 980px) {
+    width: 90%;
+  }
 `
 
 const ButtonContainer = styled.div`

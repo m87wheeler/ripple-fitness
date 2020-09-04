@@ -55,6 +55,10 @@ const Text = styled.div`
 
   @media (max-width: 800px) {
     width: 90%;
+
+    img {
+      width: 90%;
+    }
   }
 `
 

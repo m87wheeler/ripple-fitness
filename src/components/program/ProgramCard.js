@@ -20,7 +20,7 @@ const CardWrapper = styled.div`
     display: block;
     width: 5rem;
     height: auto;
-    margin: 0 auto;
+    margin: 0.5rem auto 0;
   }
 
   h4 {
@@ -39,13 +39,23 @@ const CardWrapper = styled.div`
   }
 
   @media (max-width: 770px) {
-    padding: 4rem 0 0.75rem;
+    padding: 0.75rem 0;
+
+    h4 {
+      width: 80%;
+      margin: 2rem 10% 1rem;
+      min-height: 1.5rem;
+    }
+
+    p {
+      margin: 0 1.5rem;
+    }
   }
 `
 
 const MoreButton = styled(Button)`
   width: auto;
-  margin: 1rem auto 2rem;
+  margin: 1rem auto 0.5rem;
 `
 
 const SeeMore = styled.div`
