@@ -106,7 +106,7 @@ const MembershipCard = props => {
     if (curr === 0) {
       return 100
     } else {
-      return Math.abs((curr / prev) * 100 - 100)
+      return Math.floor(Math.abs((curr / prev) * 100 - 100))
     }
   }
 
