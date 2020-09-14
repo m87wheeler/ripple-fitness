@@ -1,5 +1,4 @@
 import React from "react"
-import { Link } from "gatsby"
 import { graphql } from "gatsby"
 import styled, { keyframes } from "styled-components"
 
@@ -7,11 +6,8 @@ import Layout from "../components/layout/Layout"
 // import SEO from "../components/seo"
 import LandingAnimation from "../components/home/LandingAnimation"
 import StepCard from "../components/home/StepCard"
-import AboutSection from "../components/about/AboutSection"
-import Button from "../components/shared/Button"
 import ResponsiveBox from "../components/shared/ResponsiveBox"
 import ContentBox from "../components/shared/ContentBox"
-import DualTitle from "../components/shared/DualTitle"
 
 import landingImg from "../assets/images/landing-image.jpg"
 
@@ -119,6 +115,7 @@ const IndexPage = ({ data }) => {
       {data.allContentfulHomepageContainer.edges.map(edge => {
         return (
           <ResponsiveBox
+            key={edge.node.contentful_id}
             shift={edge.node.layoutShift}
             hue={edge.node.hue}
             src={edge.node.backgroundImage.file.url}
@@ -129,10 +126,30 @@ const IndexPage = ({ data }) => {
               title={edge.node.title}
               content={edge.node.textContent.json}
               buttonText={edge.node.buttonText}
+              linkTo={edge.node.linkTo}
             />
           </ResponsiveBox>
         )
       })}
+      <ResponsiveBox
+        shift="center"
+        hue={data.allContentfulHomepageFaqContainer.edges[0].node.hue}
+        src={
+          data.allContentfulHomepageFaqContainer.edges[0].node.backgroundImage
+            .file.url
+        }
+      >
+        <ContentBox
+          hue={data.allContentfulHomepageFaqContainer.edges[0].node.hue}
+          subtitle={
+            data.allContentfulHomepageFaqContainer.edges[0].node.subtitle
+          }
+          title={data.allContentfulHomepageFaqContainer.edges[0].node.title}
+          data={data.allContentfulFrequentlyAskedQuestion.edges}
+          buttonText="See All FAQ"
+          linkTo="faq"
+        />
+      </ResponsiveBox>
     </Layout>
   )
 }
@@ -143,7 +160,7 @@ export default IndexPage
 
 export const query = graphql`
   query {
-    allContentfulProgramSection {
+    allContentfulProgramSection(sort: { fields: order }) {
       edges {
         node {
           contentful_id
@@ -168,6 +185,7 @@ export const query = graphql`
     allContentfulHomepageContainer(sort: { fields: order }) {
       edges {
         node {
+          contentful_id
           order
           title
           subtitle
@@ -181,8 +199,39 @@ export const query = graphql`
             json
           }
           buttonText
+          linkTo
           hue
           layoutShift
+        }
+      }
+    }
+    allContentfulHomepageFaqContainer {
+      edges {
+        node {
+          title
+          subtitle
+          backgroundImage {
+            file {
+              url
+            }
+          }
+          hue
+        }
+      }
+    }
+    allContentfulFrequentlyAskedQuestion(
+      filter: { showOnHomepage: { eq: true } }
+    ) {
+      edges {
+        node {
+          contentful_id
+          showOnHomepage
+          question {
+            question
+          }
+          answer {
+            answer
+          }
         }
       }
     }

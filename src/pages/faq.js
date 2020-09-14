@@ -50,7 +50,6 @@ export const query = graphql`
       edges {
         node {
           contentful_id
-          title
           question {
             question
           }

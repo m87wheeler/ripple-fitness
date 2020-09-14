@@ -24,23 +24,26 @@ const NavWrapper = styled.nav`
       a {
         width: auto;
         height: auto;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
         color: ${props =>
           props.landingPage
-            ? props.theme.colors.white
+            ? props.theme.colors.primary
             : props.theme.colors.black};
-        border-bottom: 0.1rem solid transparent;
+        border-bottom: 3px solid transparent;
         padding: 0.25rem 1rem;
         transition: all 0.3s ease-in-out;
         text-decoration: none;
 
         &:hover {
-          border-bottom: ${props =>
-            `0.1rem solid ${props.theme.colors.primary}`};
+          border-bottom: ${props => `3px solid ${props.theme.colors.primary}`};
         }
       }
 
       .active {
         color: ${props => props.theme.colors.primary};
+        border-bottom: ${props => `3px solid ${props.theme.colors.primary}`};
       }
 
       &:last-of-type {
@@ -60,7 +63,7 @@ const NavWrapper = styled.nav`
     top: 0;
     right: ${props => (props.navIsOpen ? "0" : "-150vw")};
     height: 100vh;
-    background: ${props => props.theme.colors.secondary};
+    background: ${props => props.theme.colors.primary};
     transition: right 0.3s ease-in-out;
 
     ul {
@@ -85,6 +88,7 @@ const NavWrapper = styled.nav`
           width: inherit;
           height: 100%;
           font-size: 1.5rem;
+          font-weight: 400;
           color: ${props => props.theme.colors.white};
           border-bottom: none;
           padding: 0;
@@ -97,7 +101,9 @@ const NavWrapper = styled.nav`
         }
 
         .active {
-          color: ${props => props.theme.colors.black};
+          color: ${props => props.theme.colors.white};
+          border-bottom: none;
+          font-weight: ${props => "700"};
         }
 
         &:last-of-type {
@@ -179,12 +185,22 @@ const Nav = ({ className, landingPage }) => {
       <ul>
         <li>
           <Link
+            to="/"
+            activeClassName="active"
+            onClick={handleClick}
+            onKeyDown={handleClick}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/program"
             activeClassName="active"
             onClick={handleClick}
             onKeyDown={handleClick}
           >
-            The Program
+            Program
           </Link>
         </li>
         <li>
@@ -207,11 +223,6 @@ const Nav = ({ className, landingPage }) => {
             FAQ
           </Link>
         </li>
-        {/* <li>
-          <Link to="/contact" activeClassName="active" onClick={handleClick} onKeyDown={handleClick}>
-            Contact
-          </Link>
-        </li> */}
         <li>
           <NavButton
             to="/join"

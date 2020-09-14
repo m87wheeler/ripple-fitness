@@ -32,8 +32,10 @@ const StyledCard = styled(Card)`
 `
 
 const FAQAccordion = props => {
+  console.log(props.data)
+
   return (
-    <StyledAccordion>
+    <StyledAccordion className={props.className}>
       {props.data.map((entry, i) => (
         <StyledCard key={entry.node.contentful_id}>
           <Accordion.Toggle as={Card.Header} eventKey={i + 1}>
