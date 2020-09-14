@@ -1,13 +1,17 @@
 import React from "react"
+import { Link } from "gatsby"
 import { graphql } from "gatsby"
 import styled, { keyframes } from "styled-components"
 
 import Layout from "../components/layout/Layout"
+// import SEO from "../components/seo"
 import LandingAnimation from "../components/home/LandingAnimation"
 import StepCard from "../components/home/StepCard"
 import AboutSection from "../components/about/AboutSection"
 import Button from "../components/shared/Button"
-// import VideoPlayer from "../components/shared/VideoPlayer"
+import ResponsiveBox from "../components/shared/ResponsiveBox"
+import ContentBox from "../components/shared/ContentBox"
+import DualTitle from "../components/shared/DualTitle"
 
 import landingImg from "../assets/images/landing-image.jpg"
 
@@ -92,6 +96,8 @@ const ProcessCardsWrapper = styled.section`
 `
 
 const IndexPage = ({ data }) => {
+  console.log(data)
+
   return (
     <Layout landingPage>
       <LandingWrapper>
@@ -110,18 +116,30 @@ const IndexPage = ({ data }) => {
           ))}
         </ProcessCardsWrapper>
       </LandingWrapper>
-      <AboutSection text={data.contentfulPageIntroduction.textContent.json}>
-        <div style={{ textAlign: "center" }}>
-          <Button primary to="/about" style={{ display: "inline-block" }}>
-            Learn More
-          </Button>
-        </div>
-      </AboutSection>
+      {data.allContentfulHomepageContainer.edges.map(edge => {
+        return (
+          <ResponsiveBox
+            shift={edge.node.layoutShift}
+            hue={edge.node.hue}
+            src={edge.node.backgroundImage.file.url}
+          >
+            <ContentBox
+              hue={edge.node.hue}
+              subtitle={edge.node.subtitle}
+              title={edge.node.title}
+              content={edge.node.textContent.json}
+              buttonText={edge.node.buttonText}
+            />
+          </ResponsiveBox>
+        )
+      })}
     </Layout>
   )
 }
 
 export default IndexPage
+
+// export const query = graphql``
 
 export const query = graphql`
   query {
@@ -145,6 +163,27 @@ export const query = graphql`
     contentfulPageIntroduction(title: { eq: "About" }) {
       textContent {
         json
+      }
+    }
+    allContentfulHomepageContainer(sort: { fields: order }) {
+      edges {
+        node {
+          order
+          title
+          subtitle
+          centeredTitles
+          backgroundImage {
+            file {
+              url
+            }
+          }
+          textContent {
+            json
+          }
+          buttonText
+          hue
+          layoutShift
+        }
       }
     }
   }
