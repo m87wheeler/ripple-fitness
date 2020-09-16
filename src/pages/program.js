@@ -89,7 +89,7 @@ export default Program
 
 export const query = graphql`
   query {
-    allContentfulProgramSection {
+    allContentfulProgramSection(sort: { fields: order }) {
       edges {
         node {
           contentful_id
